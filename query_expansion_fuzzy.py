@@ -16,24 +16,45 @@ import re
 import gensim 
 from gensim.models import KeyedVectors
 from collections import OrderedDict
+from gensim.scripts.glove2word2vec import glove2word2vec 
+from gensim.models import FastText
+
+
 
 # Load vectors directly from the file
-model = KeyedVectors.load_word2vec_format('GoogleNews-vectors-negative300.bin', binary=True)
+# Google word2vec model
+# =============================================================================
+#model = KeyedVectors.load_word2vec_format('GoogleNews-vectors-negative300.bin', binary=True)
+# =============================================================================
+# Glove model
+glove_input_file = 'glove.6B.100d.txt'
+word2vec_output_file = 'glove.6B.100d.txt.word2vec'
+glove2word2vec(glove_input_file, word2vec_output_file)
+model = KeyedVectors.load_word2vec_format(word2vec_output_file, binary=False)
+
+#FastText
+#1 million word vectors trained on Wikipedia 2017, UMBC webbase corpus and statmt.org news dataset
+# =============================================================================
+# model = KeyedVectors.load_word2vec_format('wiki-news-300d-1M.vec')
+# =============================================================================
+
+
+
 G=nx.Graph()
 stop_words=set(stopwords.words("english"))
 
-test_string = "creative work in art and history?"
+test_string = "WHAT REFERENCES ON INTEGRAL SPECTRUM OF PRIMARY COSMIC RAYS"
 
 test_string = test_string.lower()
 word_data = []
 
+
 def stemming(word):
-    
     # stemming of words
     porter = PorterStemmer()
-    stemmed = porter.stem(word)
-         
-    return stemmed   
+    stemmed = porter.stem(word)     
+    return stemmed
+   
 def intersection(lst1, lst2): 
     return list(set(lst1) & set(lst2))
 '''For Test String'''
@@ -52,6 +73,24 @@ for i in tagged:
         x.append(i[0])
     
 filtered_sentence = x
+
+# =============================================================================
+# for idx,val in enumerate(filtered_sentence):
+# 
+#  source = filtered_sentence[idx]
+#  depth = 2 #look for those within length 2.
+#  foundset = {key for key in nx.single_source_shortest_path(G,source,cutoff=depth).keys()}
+#  H=G.subgraph(foundset)
+#  pos=nx.spring_layout(H,k=0.2)
+#  plt.figure(idx)
+#  nx.draw(H,pos,with_labels=True)
+#  labels = nx.get_edge_attributes(H,'weight')
+#  plt.show()
+# =============================================================================
+ #nx.draw_networkx_edge_labels(H,pos,edge_labels=labels)
+
+
+
 '''STEMMING'''
 #x = []
 #for i in filtered_sentence:
@@ -326,67 +365,35 @@ print (final_query)
 # print (d_centrality)
 # print (c_centrality)
 # =============================================================================
-'''For Whole file'''
-# =============================================================================
-# with open('questions.txt',encoding="ISO-8859-1",newline='') as f:
-#    
-#     for line in f:
-#     
-#         if line and not line.startswith("<"):
-#             #print(line)
-#             line=line.replace('\n','')
-#             wordsList = nltk.word_tokenize(line) 
-#             filtered_sentence = [w for w in wordsList if not w in stop_words]
-#             for i in filtered_sentence:
-#                 stemming(i)
-# 
-#             for x in filtered_sentence:
-#                 word = Word(x)
-#                 if(len(word.synsets) > 1):
-#                     w = word.synsets[1]
-#                 
-#                 G.add_node(w.name())
-#                 for h in w.hypernyms():
-#                     #print (h)
-#                     G.add_node(h.name())
-#                     G.add_edge(w.name(),h.name())
-#                     
-#                 for h in w.hyponyms():
-#                     #print (h)
-#                     G.add_node(h.name())
-#                     G.add_edge(w .name(),h.name())
-# =============================================================================
-            
-# =============================================================================
-#         synonyms_string=' '.join(synonyms)
-#         synonyms=[]
-#         fout.write(synonyms_string)
-#         fout.write('\n')
-# =============================================================================
+
 
 '''Creating whole graph G'''
-pos=nx.spring_layout(G,k=0.2)
-nx.draw(G,pos,with_labels=True)
-labels = nx.get_edge_attributes(G,'weight')
-#to show edge weights
-nx.draw_networkx_edge_labels(G,pos,edge_labels=labels)
-#plt.savefig("path.png")
-plt.show()
+# =============================================================================
+# pos=nx.spring_layout(G,k=0.2)
+# nx.draw(G,pos,with_labels=True)
+# labels = nx.get_edge_attributes(G,'weight')
+# #to show edge weights
+# #nx.draw_networkx_edge_labels(G,pos,edge_labels=labels)
+# #plt.savefig("path.png")
+# plt.show()
+# =============================================================================
 
 
 #print(G.neighbors())
 '''Creating small subgraphs for concerned words'''
-#for idx,val in enumerate(final_words):
 # =============================================================================
-# source = final_words[0]
-# depth = 2 #look for those within length 2.
-# foundset = {key for key in nx.single_source_shortest_path(G,source,cutoff=depth).keys()}
-# H=G.subgraph(foundset)
-# pos=nx.spring_layout(H,k=0.2)
-# plt.figure(2)
-# nx.draw(H,pos,with_labels=True)
-# labels = nx.get_edge_attributes(H,'weight')
-# nx.draw_networkx_edge_labels(H,pos,edge_labels=labels)
+# for idx,val in enumerate(final_words):
+# 
+#  source = final_words[0]
+#  depth = 2 #look for those within length 2.
+#  foundset = {key for key in nx.single_source_shortest_path(G,source,cutoff=depth).keys()}
+#  H=G.subgraph(foundset)
+#  pos=nx.spring_layout(H,k=0.2)
+#  plt.figure(2)
+#  nx.draw(H,pos,with_labels=True)
+#  labels = nx.get_edge_attributes(H,'weight')
+#  nx.draw_networkx_edge_labels(H,pos,edge_labels=labels)
+# =============================================================================
 # =============================================================================
 # =============================================================================
 # f.close()
@@ -405,8 +412,16 @@ plt.show()
 #                 continue
 # ============================================================================
 
+#secondary emission electrons positive ion bombardment cathode material substance chemical fiber mineral paper rock gum 
+#secondary emission electrons positive ion bombardment cathode material chemical fiber mineral paper rock gum 
 #Source
 #http://intelligentonlinetools.com/blog/2016/09/05/getting-wordnet-information-and-building-and-building-graph-with-python-and-networkx/
 #https://github.com/ellisa1419/Wordnet-Query-Expansion
 
 #http://intelligentonlinetools.com/blog/2016/09/05/getting-wordnet-information-and-building-and-building-graph-with-python-and-networkx/
+'''
+ ->  Word2Vec (by Google)
+     ->  GloVe (by Stanford)
+     ->  fastText (by Facebook)
+     https://fasttext.cc/docs/en/english-vectors.html
+'''
