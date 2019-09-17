@@ -1,0 +1,32 @@
+Average Precision : 0.0852
+
+runid	all	DPH
+num_q	all	47
+num_ret	all	45020
+num_rel	all	3301
+num_rel_ret	all	1079
+map	all	0.0852
+gm_map	all	0.0051
+Rprec	all	0.0954
+bpref	all	0.3897
+recip_rank	all	0.2989
+iprec_at_recall_0.00	all	0.3189
+iprec_at_recall_0.10	all	0.1784
+iprec_at_recall_0.20	all	0.1508
+iprec_at_recall_0.30	all	0.1250
+iprec_at_recall_0.40	all	0.1132
+iprec_at_recall_0.50	all	0.0850
+iprec_at_recall_0.60	all	0.0546
+iprec_at_recall_0.70	all	0.0335
+iprec_at_recall_0.80	all	0.0256
+iprec_at_recall_0.90	all	0.0157
+iprec_at_recall_1.00	all	0.0153
+P_5	all	0.1617
+P_10	all	0.1404
+P_15	all	0.1220
+P_20	all	0.1085
+P_30	all	0.0950
+P_100	all	0.0696
+P_200	all	0.0545
+P_500	all	0.0340
+P_1000	all	0.0230
