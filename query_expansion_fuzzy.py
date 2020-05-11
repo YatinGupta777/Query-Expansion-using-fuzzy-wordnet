@@ -17,9 +17,9 @@ from gensim.models import FastText
 # Load vectors directly from the file
 # Google word2vec model
 # =============================================================================
-glove_input_file = 'glove.6B.100d.txt'
+#glove_input_file = 'glove.6B.100d.txt'
 word2vec_output_file = 'glove.6B.100d.txt.word2vec'
-glove2word2vec(glove_input_file, word2vec_output_file)
+#glove2word2vec(glove_input_file, word2vec_output_file)
 model = KeyedVectors.load_word2vec_format(word2vec_output_file, binary=False)
 # =============================================================================
 # Glove model
@@ -425,8 +425,6 @@ f.close()
 #                 continue
 # ============================================================================
 
-#secondary emission electrons positive ion bombardment cathode material substance chemical fiber mineral paper rock gum 
-#secondary emission electrons positive ion bombardment cathode material chemical fiber mineral paper rock gum 
 #Source
 #http://intelligentonlinetools.com/blog/2016/09/05/getting-wordnet-information-and-building-and-building-graph-with-python-and-networkx/
 #https://github.com/ellisa1419/Wordnet-Query-Expansion
